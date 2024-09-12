@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optimasi Keuntungan Maximalll</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        h1, h2 {
+            margin-bottom: 20px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        #chart-container {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-7">
+                <h1 class="text-center">Optimasi Keuntungan Maximalll</h1>
+
+                <!-- Input Form -->
+                <h2 class="text-center">Input Data</h2>
+
+                <!-- Harga barang 1 -->
+                <div class="input-group">
+                    <label for="hargaMangga" class="form-label mx-2">Harga per cup barang 1 (Rp) : </label>
+                    <input type="number" class="form-control" id="hargaMangga">
+                </div>
+
+                <!-- Harga barang 2 -->
+                <div class="input-group">
+                    <label for="hargaAlpukat" class="form-label mx-2">Harga per cup barang 2 (Rp) : </label>
+                    <input type="number" class="form-control" id="hargaAlpukat">
+                </div>
+
+                <!-- Kebutuhan Air dan Buah untuk barang 1 -->
+                <div class="input-group">
+                    <label for="airMangga" class="form-label mx-2">Air per cup barang 1 (liter) : </label>
+                    <input type="number" class="form-control" id="airMangga" >
+                </div>
+                <div class="input-group">
+                    <label for="buahMangga" class="form-label mx-2">Buah per cup barang 1 (kg) : </label>
+                    <input type="number" class="form-control" id="buahMangga" >
+                </div>
+
+                <!-- Kebutuhan Air dan Buah untuk barang 2 -->
+                <div class="input-group">
+                    <label for="airAlpukat" class="form-label mx-2">Air per cup barang 2 (liter) : </label>
+                    <input type="number" class="form-control" id="airAlpukat" >
+                </div>
+                <div class="input-group">
+                    <label for="buahAlpukat" class="form-label mx-2">Buah per cup barang 2 (kg) : </label>
+                    <input type="number" class="form-control" id="buahAlpukat" >
+                </div>
+
+                <!-- Ketersediaan Air dan Buah -->
+                <div class="input-group">
+                    <label for="totalAir" class="form-label mx-2">Total air tersedia (liter) : </label>
+                    <input type="number" class="form-control" id="totalAir" >
+                </div>
+                <div class="input-group">
+                    <label for="totalBuah" class="form-label mx-2">Total buah tersedia (kg) : </label>
+                    <input type="number" class="form-control" id="totalBuah">
+                </div>
+
+                <!-- Tombol Hitung -->
+                 <p class="text-center">
+                     <button class="btn btn-primary w-50" onclick="hitungKeuntungan()">Hitung Keuntungan Maksimal</button>
+                 </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Modal Pop-up for Results -->
+    <div class="modal fade" id="hasilModal" tabindex="-1" aria-labelledby="hasilModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center" id="hasilModalLabel">Hasil Perhitungan By Slebeww</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="hasil" class="alert alert-info"></p>
+                    <div id="chart-container">
+                        <canvas id="chart"></canvas>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <span class="text-center mx-auto">Made By Team Slebew Ang Ang Ang</span><hr>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function hitungKeuntungan() {
+            // Mengambil input pengguna
+            const hargaMangga = parseFloat(document.getElementById('hargaMangga').value);
+            const hargaAlpukat = parseFloat(document.getElementById('hargaAlpukat').value);
+            const airMangga = parseFloat(document.getElementById('airMangga').value);
+            const buahMangga = parseFloat(document.getElementById('buahMangga').value);
+            const airAlpukat = parseFloat(document.getElementById('airAlpukat').value);
+            const buahAlpukat = parseFloat(document.getElementById('buahAlpukat').value);
+            const totalAir = parseFloat(document.getElementById('totalAir').value);
+            const totalBuah = parseFloat(document.getElementById('totalBuah').value);
+
+            // Batasan
+            const batasAir = {a: airMangga, b: airAlpukat, total: totalAir};
+            const batasBuah = {a: buahMangga, b: buahAlpukat, total: totalBuah};
+
+            // Fungsi objektif
+            function hitungKeuntungan(x, y) {
+                return hargaMangga * x + hargaAlpukat * y;
+            }
+
+            // Titik-titik batas
+            const titikPotong = [];
+
+            const titikAir0 = {x: totalAir / airMangga, y: 0};
+            const titikAirY = {x: 0, y: totalAir / airAlpukat};
+            const titikBuah0 = {x: totalBuah / buahMangga, y: 0};
+            const titikBuahY = {x: 0, y: totalBuah / buahAlpukat};
+
+            // Hitung titik potong dari kedua persamaan
+            const D = batasAir.a * batasBuah.b - batasBuah.a * batasAir.b;
+            const Dx = batasAir.total * batasBuah.b - batasBuah.total * batasAir.b;
+            const Dy = batasAir.a * batasBuah.total - batasBuah.a * batasAir.total;
+
+            if (D !== 0) {
+                const x = Dx / D;
+                const y = Dy / D;
+                titikPotong.push({x: x, y: y});
+            }
+
+            // Tambahkan titik batas lainnya
+            titikPotong.push(titikAir0, titikAirY, titikBuah0, titikBuahY);
+
+            // Evaluasi fungsi objektif di setiap titik
+            let keuntunganMaksimal = 0;
+            let titikOptimal = null;
+
+            titikPotong.forEach(titik => {
+                const x = titik.x;
+                const y = titik.y;
+
+                if (batasAir.a * x + batasAir.b * y <= totalAir && batasBuah.a * x + batasBuah.b * y <= totalBuah) {
+                    const keuntungan = hitungKeuntungan(x, y);
+                    if (keuntungan > keuntunganMaksimal) {
+                        keuntunganMaksimal = keuntungan;
+                        titikOptimal = titik;
+                    }
+                }
+            });
+
+            // Tampilkan hasil
+            if (titikOptimal) {
+                document.getElementById('hasil').innerHTML = `Keuntungan maksimal: Rp${keuntunganMaksimal.toFixed(2)} dengan memproduksi ${titikOptimal.x.toFixed(2)} barang 1 dan ${titikOptimal.y.toFixed(2)} barang 2.`;
+            } else {
+                document.getElementById('hasil').innerHTML = 'Tidak ada solusi optimal yang memenuhi semua batasan.';
+            }
+
+            // Plot grafik
+            plotGrafik(titikAir0, titikAirY, titikBuah0, titikBuahY, titikOptimal);
+
+            // Tampilkan modal hasil
+            const hasilModal = new bootstrap.Modal(document.getElementById('hasilModal'));
+            hasilModal.show();
+        }
+
+        function plotGrafik(titikAir0, titikAirY, titikBuah0, titikBuahY, titikOptimal) {
+            const ctx = document.getElementById('chart').getContext('2d');
+
+            const xValues = [titikAir0.x, titikAirY.x, titikBuah0.x, titikBuahY.x, titikOptimal.x];
+            const yValues = [titikAir0.y, titikAirY.y, titikBuah0.y, titikBuahY.y, titikOptimal.y];
+
+            if (window.myChart) {
+                window.myChart.destroy();
+            }
+
+            window.myChart = new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: [
+                        {
+                            label: 'Titik Batas',
+                            data: [
+                                {x: titikAir0.x, y: titikAir0.y},
+                                {x: titikAirY.x, y: titikAirY.y},
+                                {x: titikBuah0.x, y: titikBuah0.y},
+                                {x: titikBuahY.x, y: titikBuahY.y},
+                            ],
+                            borderColor: 'green',
+                            backgroundColor: 'green',
+                            showLine: true,
+                            fill: false
+                        },
+                        {
+                            label: 'Titik Optimal',
+                            data: [
+                                {x: titikOptimal.x, y: titikOptimal.y}
+                            ],
+                            borderColor: 'aquamarine',
+                            backgroundColor: 'aquamarine',
+                            pointRadius: 8,
+                            showLine: false
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            position: 'bottom',
+                            suggestedMin: 0,
+                            suggestedMax: 50
+                        },
+                        y: {
+                            suggestedMin: 0,
+                            suggestedMax: 50
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
