@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPLDV Calculator</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f8f9fa;
+        }
+        h1 {
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h1 class="text-center">SPLDV Calculator</h1>
+                
+                <!-- Form Input -->
+                <form id="spldvForm">
+                    <h4>Persamaan 1: ax + by = c</h4>
+                    <div class="mb-3">
+                        <label for="a" class="form-label">Masukkan nilai a:</label>
+                        <input type="number" step="any" id="a" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="b" class="form-label">Masukkan nilai b:</label>
+                        <input type="number" step="any" id="b" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="c" class="form-label">Masukkan nilai c:</label>
+                        <input type="number" step="any" id="c" class="form-control" required>
+                    </div>
+
+                    <h4>Persamaan 2: px + qy = r</h4>
+                    <div class="mb-3">
+                        <label for="p" class="form-label">Masukkan nilai p:</label>
+                        <input type="number" step="any" id="p" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="q" class="form-label">Masukkan nilai q:</label>
+                        <input type="number" step="any" id="q" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="r" class="form-label">Masukkan nilai r:</label>
+                        <input type="number" step="any" id="r" class="form-control" required>
+                    </div>
+
+                    <!-- Tombol Hitung -->
+                    <button type="submit" class="btn btn-primary w-100">Hitung SPLDV</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Hasil -->
+    <div class="modal fade" id="resultModal" tabindex="-1" aria-labelledby="resultModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="resultModalLabel">Hasil SPLDV</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="resultX"></p>
+                    <p id="resultY"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Fungsi untuk menghitung SPLDV
+        document.getElementById('spldvForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // Ambil nilai dari input form
+            const a = parseFloat(document.getElementById('a').value);
+            const b = parseFloat(document.getElementById('b').value);
+            const c = parseFloat(document.getElementById('c').value);
+            const p = parseFloat(document.getElementById('p').value);
+            const q = parseFloat(document.getElementById('q').value);
+            const r = parseFloat(document.getElementById('r').value);
+
+            // Rumus penyelesaian SPLDV
+            const x = (c * q - r * b) / (a * q - p * b);
+            const y = (c - a * x) / b;
+
+            // Tampilkan hasil di elemen HTML
+            document.getElementById('resultX').innerText = `Nilai x: ${x.toFixed(2)}`;
+            document.getElementById('resultY').innerText = `Nilai y: ${y.toFixed(2)}`;
+
+            // Tampilkan modal hasil
+            var resultModal = new bootstrap.Modal(document.getElementById('resultModal'));
+            resultModal.show();
+        });
+    </script>
+</body>
+</html>

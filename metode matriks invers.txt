@@ -1,0 +1,49 @@
+# Fungsi untuk menghitung determinan dari matriks 2x2
+def determinan(a, b, c, d):
+    return a * d - b * c
+    
+# Fungsi untuk menghitung invers dari matriks 2x2
+def invers_matriks(a, b, c, d):
+    det = determinan(a, b, c, d)
+    if det == 0:
+        return None
+    else:
+        inv_a = d / det
+        inv_b = -b / det
+        inv_c = -c / det
+        inv_d = a / det
+        return inv_a, inv_b, inv_c, inv_d
+
+def spldv_invers_manual(a1, b1, c1, a2, b2, c2):
+    # Hitung invers dari matriks koefisien
+    invers = invers_matriks(a1, b1, a2, b2)
+    
+    if invers is None:
+        return "Matriks tidak memiliki invers (determinannya nol)."
+    # Matriks hasil
+    inv_a, inv_b, inv_c, inv_d = invers
+    x = inv_a * c1 + inv_b * c2
+    y = inv_c * c1 + inv_d * c2
+    
+    return x, y
+
+# Input nilai dari persamaan
+print('Masukkan nilai untuk persamaan 1 (a1x + b1y = c1): ')
+a1 = float(input('a1: '))
+b1 = float(input('b1: '))
+c1 = float(input('c1: '))
+
+print('Masukkan nilai untuk persamaan 2 (a2x + b2y = c2): ')
+a2 = float(input('a2: '))
+b2 = float(input('b2: '))
+c2 = float(input('c2: '))
+
+hasil = spldv_invers_manual(a1, b1, c1, a2, b2, c2)
+
+# Cetak hasil
+if isinstance(hasil, str):
+    print(hasil)
+else:
+    x, y = hasil
+    print(f"Nilai x = ", x)
+    print(f"Nilai y = ", y)
