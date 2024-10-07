@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Optimasi Keuntungan Maksimal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+        body {
+            background-image: url('img/z12.jpg');
+            background-size: cover;
+            background-position: center;
+            color: rgb(255, 246, 246);
+            font-family: "poppins", 'Times New Roman', Times, serif;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="text-center">Optimasi Keuntungan Maksimal</h1>
+        <form id="inputForm">
+            <div class="row">
+                <h3>Boneka</h3>
+                <div class="col-md-3 col-xs-6">
+                    <div class="mb-3">
+                        <label for="x1" class="form-label">Deterjen (gram):</label>
+                        <input type="number" class="form-control" id="x1" />
+                    </div>
+                </div>
+                <div class="col-md-3 col-xs-6">
+                    <div class="mb-3">
+                        <label for="y1" class="form-label">Waktu (menit):</label>
+                        <input type="number" class="form-control" id="y1" />
+                    </div>
+                </div>
+                <div class="col-md-3 col-xs-6">
+                    <div class="mb-3">
+                        <label for="l1" class="form-label">Air:</label>
+                        <input type="number" class="form-control" id="l1" />
+                    </div>
+                </div>
+                <div class="col-md-3 col-xs-6">
+                    <div class="mb-3">
+                        <label for="z1" class="form-label">Harga Jasa:</label>
+                        <input type="number" class="form-control" id="z1" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <h3>Sepatu</h3>
+                <div class="col-md-3 col-xs-6">
+                    <div class="mb-3">
+                        <label for="x2" class="form-label">Deterjen (gram):</label>
+                        <input type="number" class="form-control" id="x2" />
+                    </div>
+                </div>
+                <div class="col-md-3 col-xs-6">
+                    <div class="mb-3">
+                        <label for="y2" class="form-label">Waktu (menit):</label>
+                        <input type="number" class="form-control" id="y2" />
+                    </div>
+                </div>
+                <div class="col-md-3 col-xs-6">
+                    <div class="mb-3">
+                        <label for="l2" class="form-label">Air:</label>
+                        <input type="number" class="form-control" id="l2" />
+                    </div>
+                </div>
+                <div class="col-md-3 col-xs-6">
+                    <div class="mb-3">
+                        <label for="z2" class="form-label">Harga Jasa:</label>
+                        <input type="number" class="form-control" id="z2" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <h3>Selimut</h3>
+                <div class="col-md-3 col-xs-6">
+                    <div class="mb-3">
+                        <label for="x3" class="form-label">Deterjen (gram):</label>
+                        <input type="number" class="form-control" id="x3" />
+                    </div>
+                </div>
+                <div class="col-md-3 col-xs-6">
+                    <div class="mb-3">
+                        <label for="y3" class="form-label">Waktu (menit):</label>
+                        <input type="number" class="form-control" id="y3" />
+                    </div>
+                </div>
+                <div class="col-md-3 col-xs-6">
+                    <div class="mb-3">
+                        <label for="l3" class="form-label">Air:</label>
+                        <input type="number" class="form-control" id="l3" />
+                    </div>
+                </div>
+                <div class="col-md-3 col-xs-6">
+                    <div class="mb-3">
+                        <label for="z3" class="form-label">Harga Jasa:</label>
+                        <input type="number" class="form-control" id="z3" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <h3>Batasan</h3>
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label for="totalDeterjen" class="form-label">Total Deterjen (gram):</label>
+                        <input type="number" class="form-control" id="totalDeterjen" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label for="totalWaktu" class="form-label">Total Waktu (menit):</label>
+                        <input type="number" class="form-control" id="totalWaktu" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="mb-3">
+                        <label for="totalListrik" class="form-label">Total Air:</label>
+                        <input type="number" class="form-control" id="totalListrik" />
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="button" class="btn btn-success" onclick="hitungKeuntungan()">
+                    Hitung Keuntungan Maksimal
+                </button>
+            </div>
+        </form>
+
+        <div class="modal fade" id="hasilModal" tabindex="-1" aria-labelledby="hasilModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="hasilModalLabel">Hasil Perhitungan</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="hasil" class="alert alert-info"></p>
+                        <canvas id="grafikKeuntungan"></canvas>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function hitungKeuntungan() {
+            const x1 = parseFloat(document.getElementById("x1").value);
+            const y1 = parseFloat(document.getElementById("y1").value);
+            const l1 = parseFloat(document.getElementById("l1").value);
+            const z1 = parseFloat(document.getElementById("z1").value);
+
+            const x2 = parseFloat(document.getElementById("x2").value);
+            const y2 = parseFloat(document.getElementById("y2").value);
+            const l2 = parseFloat(document.getElementById("l2").value);
+            const z2 = parseFloat(document.getElementById("z2").value);
+
+            const x3 = parseFloat(document.getElementById("x3").value);
+            const y3 = parseFloat(document.getElementById("y3").value);
+            const l3 = parseFloat(document.getElementById("l3").value);
+            const z3 = parseFloat(document.getElementById("z3").value);
+
+            const totalDeterjen = parseFloat(document.getElementById("totalDeterjen").value);
+            const totalWaktu = parseFloat(document.getElementById("totalWaktu").value);
+            const totalListrik = parseFloat(document.getElementById("totalListrik").value);
+
+            let maxKeuntungan = -Infinity; // Mengizinkan nilai negatif
+            let optimalBoneka = 0;
+            let optimalSepatu = 0;
+            let optimalSelimut = 0;
+
+            // Menggunakan brute-force untuk menghitung semua kemungkinan
+            for (let b = -Math.floor(totalDeterjen / x1); b <= Math.floor(totalDeterjen / x1); b++) {
+                for (let s = -Math.floor(totalDeterjen / x2); s <= Math.floor(totalDeterjen / x2); s++) {
+                    for (let se = -Math.floor(totalDeterjen / x3); se <= Math.floor(totalDeterjen / x3); se++) {
+                        const totalD = (b * x1 + s * x2 + se * x3);
+                        const totalW = (b * y1 + s * y2 + se * y3);
+                        const totalL = (b * l1 + s * l2 + se * l3);
+
+                        if (totalD <= totalDeterjen && totalW <= totalWaktu && totalL <= totalListrik) {
+                            const keuntungan = (b * z1 + s * z2 + se * z3);
+                            if (keuntungan > maxKeuntungan) {
+                                maxKeuntungan = keuntungan;
+                                optimalBoneka = b;
+                                optimalSepatu = s;
+                                optimalSelimut = se;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Menampilkan hasil
+            const hasilText = `Keuntungan Maksimal: Rp ${maxKeuntungan.toFixed(2)}<br>Optimal Boneka: ${optimalBoneka}<br>Optimal Sepatu: ${optimalSepatu}<br>Optimal Selimut: ${optimalSelimut}`;
+            document.getElementById("hasil").innerHTML = hasilText;
+
+            // Menampilkan grafik
+            const ctx = document.getElementById("grafikKeuntungan").getContext("2d");
+            const grafikKeuntungan = new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: ["Boneka", "Sepatu", "Selimut"],
+                    datasets: [{
+                        label: "Jumlah Produk",
+                        data: [optimalBoneka, optimalSepatu, optimalSelimut],
+                        backgroundColor: ["rgba(255, 99, 132, 0.5)", "rgba(54, 162, 235, 0.5)", "rgba(255, 206, 86, 0.5)"]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Menampilkan modal hasil
+            const modal = new bootstrap.Modal(document.getElementById("hasilModal"));
+            modal.show();
+        }
+    </script>
+</body>
+</html>
