@@ -1,104 +1,510 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spldv calculator</title>
-    <link rel="icon" href="img/logo2.png" />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-      rel="stylesheet"
-    />
-
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <title>Kalkulator SPL Interaktif ✨</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        body{
-            background-image: url('img/lpk4.jpg');
-            background-size: cover;
-            color: dark;
-            font-family: "poppins";
-            color: white;
-        }
-        .navbar {
-            background-color: #ff4d4d; /* Warna merah nyaman di mata */
-            margin-bottom: -100px;
-        }
-        .navbar-brand {
-            margin: 0 auto;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: white;
-        }
-        .navbar-brand:hover {
-            color: white;
+        /* Menggunakan font Poppins untuk seluruh halaman */
+        body {
+            font-family: 'Poppins', sans-serif;
         }
 
-        /* Style Hero Section */
-        .hero {
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: -10px;
+        /* Latar belakang gradien animasi */
+        .gradient-bg {
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
         }
-        .hero h2 {
-            font-size: 2rem;
-            font-weight: bold;
-            margin-bottom: 20px;
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
-        .hero p {
-            font-size: 1.1rem;
-            margin-bottom: 20px;
+
+        /* Efek Glassmorphism untuk kartu/panel */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px); /* Untuk Safari */
+            border-radius: 1.5rem; /* Sudut yang sangat tumpul */
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+            transition: all 0.3s ease;
         }
-        .hero .btn {
-            padding: 10px 20px;
-            font-size: 1.1rem;
+
+        /* Styling kustom untuk input radio agar lebih modern */
+        .custom-radio input[type="radio"] {
+            display: none;
+        }
+        .custom-radio label {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .custom-radio input[type="radio"]:checked + label {
+            background-color: #fff;
+            color: #23a6d5;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
     </style>
 </head>
-<body>
+<body class="gradient-bg min-h-screen flex items-center justify-center p-4">
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg">
-        <a class="navbar-brand" href="#">Kalkulator SPLDV</a>
-    </nav>
+    <main class="glass-card p-6 sm:p-8 text-white w-full max-w-6xl">
+        
+        <div class="text-center mb-8">
+            <h1 class="text-3xl sm:text-4xl font-bold tracking-wider">Kalkulator Sistem Persamaan Linear</h1>
+            <p class="opacity-80 mt-2">Solusi cepat dan interaktif untuk masalah aljabarmu!</p>
+        </div>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container my-5">
-            <div class="row ">
-                <!-- Kolom pertama -->
-                <div class="col-md-6 text-center border-end">
-                    <h2>Perhitungan SPLDV</h2>
-                    <p>Pelajari bagaimana cara menyelesaikan Sistem Persamaan Linear Dua Variabel (SPLDV) dengan mudah dan cepat.</p>
-                    <a href="index1.html" class="btn btn-success">Mulai Perhitungan</a>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div class="space-y-6">
+                <div>
+                    <label for="numVariables" class="block font-semibold mb-2 text-lg">1. Atur Jumlah Variabel</label>
+                    <div class="flex space-x-3">
+                        <input type="number" id="numVariables" class="border-none bg-white bg-opacity-20 rounded-lg p-3 w-24 text-center text-lg font-semibold focus:ring-2 focus:ring-white outline-none" value="2" min="2" max="5">
+                        <button id="generateMatrixBtn" class="flex-1 bg-white text-blue-500 font-bold px-4 py-2 rounded-lg hover:bg-opacity-90 transform hover:scale-105 transition-transform">Buat Matriks Baru</button>
+                    </div>
                 </div>
 
-                <!-- Kolom kedua -->
-                <div class="col-md-6 text-center">
-                    <h2>Perhitungan Maximum SPLDV</h2>
-                    <p>Cari tahu cara menghitung nilai maksimum dari SPLDV untuk optimasi dan perhitungan maksimum.</p>
-                    <a href="index2.html" class="btn btn-danger">Hitung Maximum SPLDV</a>
+                <div>
+                    <label class="block font-semibold mb-2 text-lg">2. Masukkan Koefisien</label>
+                    <div id="matrix-container" class="grid gap-2 p-4 bg-black bg-opacity-20 rounded-xl">
+                        </div>
                 </div>
+                
+                <div>
+                    <h3 class="font-semibold mb-3 text-lg">3. Pilih Metode Penyelesaian</h3>
+                    <div class="flex flex-wrap gap-3 custom-radio">
+                        <div><input type="radio" id="method-gauss" name="method" value="gauss"><label for="method-gauss">Eliminasi Gauss</label></div><br><br>
+                        <div><input type="radio" id="method-elim-subst" name="method" value="elim_subst" checked><label for="method-elim-subst">Eliminasi & Substitusi</label></div><br><br>
+                        <div><input type="radio" id="method-cramer" name="method" value="cramer"><label for="method-cramer">Aturan Cramer</label></div><br><br>
+                        <div><input type="radio" id="method-graph" name="method" value="graph"><label for="method-graph">Metode Grafik</label></div>
+                    </div>
+                    <p id="method-warning" class="text-xs opacity-70 mt-2 hidden">Peringatan: Metode ini hanya optimal untuk 2 atau 3 variabel.</p>
+                </div>
+
+                <button id="solveBtn" class="w-full bg-pink-500 text-white text-xl font-bold py-4 rounded-xl hover:bg-pink-600 focus:ring-4 focus:ring-pink-300 transform hover:scale-102 transition-all duration-300 shadow-lg">
+                    ✨ Hitung Solusi!
+                </button>
             </div>
-            <div class="row text-center mt-5 border-top">
-                <!-- Kolom ketiga -->
-                <div class="col">
-                    <h2>Perhitungan Maximum SPLDV</h2>
-                    <p>Cari tahu cara menghitung nilai maksimum dari 3 variabel dan mencari keuntungan maksimum.</p>
-                    <a href="index3.html" class="btn btn-primary">Hitung Maximum 3 variabel</a>
+
+            <div id="result-wrapper" class="glass-card p-6 min-h-[300px] flex flex-col opacity-0 transition-opacity duration-500">
+                <h2 class="text-2xl font-bold mb-4 border-b-2 border-white border-opacity-30 pb-2">Hasil & Langkah-langkah</h2>
+                <div id="result-container" class="flex-grow overflow-auto space-y-4">
+                     <canvas id="graph-canvas" class="bg-white bg-opacity-10 rounded-lg w-full hidden aspect-square max-w-md mx-auto"></canvas>
+                    <div id="steps-output" class="text-left whitespace-pre-wrap font-mono text-sm leading-relaxed">
+                        Silakan isi matriks dan klik tombol hitung...
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
+    </main>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // === DOM ELEMENTS ===
+    const numVariablesInput = document.getElementById('numVariables');
+    const generateMatrixBtn = document.getElementById('generateMatrixBtn');
+    const matrixContainer = document.getElementById('matrix-container');
+    const solveBtn = document.getElementById('solveBtn');
+    const resultWrapper = document.getElementById('result-wrapper');
+    const stepsOutput = document.getElementById('steps-output');
+    const graphCanvas = document.getElementById('graph-canvas');
+    const methodWarning = document.getElementById('method-warning');
+    const radioButtons = document.querySelectorAll('input[name="method"]');
+
+    // === EVENT LISTENERS ===
+    generateMatrixBtn.addEventListener('click', () => createMatrixGrid());
+    solveBtn.addEventListener('click', solve);
+    radioButtons.forEach(radio => {
+        radio.addEventListener('change', (e) => {
+            const warningMap = {
+                'graph': 'Metode grafik hanya untuk 2 variabel.',
+                'elim_subst': 'Metode ini paling cocok untuk 2 atau 3 variabel.'
+            };
+            const message = warningMap[e.target.value];
+            if (message) {
+                methodWarning.textContent = message;
+                methodWarning.classList.remove('hidden');
+            } else {
+                methodWarning.classList.add('hidden');
+            }
+        });
+    });
+    numVariablesInput.addEventListener('change', () => {
+        const n = parseInt(numVariablesInput.value);
+        document.getElementById('method-graph').disabled = n !== 2;
+        const graphLabel = document.querySelector('label[for="method-graph"]');
+        if (n !== 2) {
+            graphLabel.classList.add('opacity-50', 'cursor-not-allowed');
+            if(document.getElementById('method-graph').checked) {
+                document.getElementById('method-elim-subst').checked = true;
+            }
+        } else {
+            graphLabel.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+    });
+
+    // === CORE FUNCTIONS ===
+    function createMatrixGrid() {
+        const n = parseInt(numVariablesInput.value);
+        if (isNaN(n) || n < 2 || n > 5) {
+            alert("Jumlah variabel harus antara 2 dan 5.");
+            return;
+        }
+
+        matrixContainer.innerHTML = '';
+        matrixContainer.style.gridTemplateColumns = `repeat(${n + 1}, 1fr)`;
+
+        for (let i = 0; i < n; i++) {
+            for (let j = 0; j < n + 1; j++) {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.className = 'border-none bg-white bg-opacity-20 rounded-md p-2 text-center text-white focus:ring-2 focus:ring-white outline-none w-full';
+                const varName = j < n ? `x${j + 1}` : `b${i + 1}`;
+                input.setAttribute('placeholder', varName);
+                if (j === n) {
+                    input.classList.add('bg-opacity-30', 'font-semibold');
+                }
+                matrixContainer.appendChild(input);
+            }
+        }
+        numVariablesInput.dispatchEvent(new Event('change'));
+    }
+
+    function getMatrixValues() {
+        const n = parseInt(numVariablesInput.value);
+        const inputs = matrixContainer.querySelectorAll('input');
+        const matrix = [];
+        let index = 0;
+        for (let i = 0; i < n; i++) {
+            const row = [];
+            for (let j = 0; j < n + 1; j++) {
+                const value = parseFloat(inputs[index++].value);
+                if (isNaN(value)) {
+                    alert(`Input tidak valid pada baris ${i+1}, kolom ${j+1}. Harap isi semua kolom dengan angka.`);
+                    return null;
+                }
+                row.push(value);
+            }
+            matrix.push(row);
+        }
+        return matrix;
+    }
+    
+    function solve() {
+        const matrix = getMatrixValues();
+        if (!matrix) return;
+
+        resultWrapper.style.opacity = '1';
+        graphCanvas.classList.add('hidden');
+        stepsOutput.classList.remove('hidden');
+
+        const selectedMethod = document.querySelector('input[name="method"]:checked').value;
+        let result;
+
+        try {
+            switch (selectedMethod) {
+                case 'gauss':
+                    result = solveWithGaussianElimination(matrix);
+                    break;
+                case 'cramer':
+                    result = solveWithCramer(matrix);
+                    break;
+                case 'elim_subst':
+                    result = solveWithEliminationSubstitution(matrix);
+                    break;
+                case 'graph':
+                    if (matrix.length !== 2) {
+                        stepsOutput.innerHTML = `<span class="text-red-300 font-bold">Error:</span> Metode Grafik hanya bisa digunakan untuk sistem dengan 2 variabel.`;
+                        return;
+                    }
+                    result = solveWithGraph(matrix);
+                    break;
+            }
+            displayResult(result, selectedMethod);
+        } catch (error) {
+            stepsOutput.innerHTML = `<span class="text-red-300 font-bold">Terjadi Error:</span> ${error.message}`;
+        }
+    }
+
+    function displayResult({ solution, steps }, method) {
+        if(method === 'graph') {
+            graphCanvas.classList.remove('hidden');
+        } else {
+            graphCanvas.classList.add('hidden');
+        }
+        
+        let solutionHTML = '<h3 class="text-lg font-bold mb-2 text-pink-300">Solusi Akhir:</h3>';
+        if (typeof solution === 'string') {
+            solutionHTML += `<p class="font-semibold">${solution}</p>`;
+        } else {
+             solution.forEach((val, i) => {
+                // Use y for the second variable in 2D cases for clarity
+                const varName = (solution.length === 2) ? (i === 0 ? 'x' : 'y') : `x${i + 1}`;
+                solutionHTML += `<p><span class="font-semibold">${varName}</span> = ${val.toFixed(4)}</p>`;
+            });
+        }
+        
+        stepsOutput.innerHTML = solutionHTML + '<hr class="my-4 border-white border-opacity-20">\n' + steps;
+    }
+
+    // === UTILITY ===
+    function cloneMatrix(matrix) {
+        return matrix.map(row => [...row]);
+    }
+    
+    function formatNumber(num) {
+        return num.toFixed(2).replace('.00', '');
+    }
+    
+    function formatEquation(row) {
+        let eq = '';
+        const n = row.length - 1;
+        for(let i=0; i<n; i++) {
+            if (Math.abs(row[i]) > 1e-9) {
+                 if (eq !== '' && row[i] > 0) eq += ' + ';
+                 else if (row[i] < 0) eq += ' - ';
+                 const coeff = Math.abs(row[i]);
+                 const varName = (n === 2) ? (i === 0 ? 'x' : 'y') : `x${i+1}`;
+                 eq += (coeff === 1 ? '' : formatNumber(coeff)) + varName;
+            }
+        }
+        return `${eq} = ${formatNumber(row[n])}`;
+    }
+
+    // === ALGORITHMS ===
+
+    // 1. Eliminasi Gauss
+    function solveWithGaussianElimination(matrix_in) {
+        const matrix = cloneMatrix(matrix_in);
+        const n = matrix.length;
+        let steps = '<h3 class="text-lg font-bold mb-2 text-cyan-300">Langkah Eliminasi Gauss:</h3>';
+        steps += "Matriks Awal:\n" + matrix.map(row => row.map(v => formatNumber(v)).join('\t')).join('\n') + "\n\n";
+
+        // Forward Elimination
+        for (let i = 0; i < n; i++) {
+            let pivotRow = i;
+            for (let k = i + 1; k < n; k++) {
+                if (Math.abs(matrix[k][i]) > Math.abs(matrix[pivotRow][i])) {
+                    pivotRow = k;
+                }
+            }
+            [matrix[i], matrix[pivotRow]] = [matrix[pivotRow], matrix[i]];
+            if (pivotRow !== i) steps += `Tukar baris R${i+1} dan R${pivotRow+1} (Pivoting)\n`;
+            
+            let pivot = matrix[i][i];
+            if (Math.abs(pivot) < 1e-9) throw new Error("Sistem tidak memiliki solusi unik (determinan nol).");
+            
+            for (let j = i + 1; j < n; j++) {
+                const factor = matrix[j][i] / pivot;
+                if (Math.abs(factor) < 1e-9) continue;
+                steps += `R${j+1} = R${j+1} - (${formatNumber(factor)} * R${i+1})\n`;
+                for (let k = i; k < n + 1; k++) {
+                    matrix[j][k] -= factor * matrix[i][k];
+                }
+            }
+            steps += "Matriks setelah iterasi " + (i+1) + ":\n" + matrix.map(row => row.map(v => v.toFixed(2)).join('\t')).join('\n') + "\n\n";
+        }
+        
+        // Back Substitution
+        const solution = new Array(n);
+        steps += "Mulai Substitusi Balik:\n";
+        for (let i = n - 1; i >= 0; i--) {
+            let sum = 0;
+            for (let j = i + 1; j < n; j++) {
+                sum += matrix[i][j] * solution[j];
+            }
+            solution[i] = (matrix[i][n] - sum) / matrix[i][i];
+            steps += `x${i+1} = (${formatNumber(matrix[i][n])} - ${formatNumber(sum)}) / ${formatNumber(matrix[i][i])} = ${solution[i].toFixed(4)}\n`;
+        }
+        return { solution, steps };
+    }
+
+    // 2. Aturan Cramer
+    function determinant(m) {
+        if (m.length === 1) return m[0][0];
+        if (m.length === 2) return m[0][0] * m[1][1] - m[0][1] * m[1][0];
+        let det = 0;
+        for (let j = 0; j < m.length; j++) {
+            const sign = j % 2 === 0 ? 1 : -1;
+            const subMatrix = m.slice(1).map(row => row.filter((_, col) => col !== j));
+            det += sign * m[0][j] * determinant(subMatrix);
+        }
+        return det;
+    }
+
+    function solveWithCramer(matrix) {
+        const n = matrix.length;
+        const coeffs = matrix.map(row => row.slice(0, n));
+        const constants = matrix.map(row => row[n]);
+        let steps = '<h3 class="text-lg font-bold mb-2 text-yellow-300">Langkah Aturan Cramer:</h3>';
+
+        const D = determinant(coeffs);
+        steps += `Determinan utama (D) = ${D.toFixed(4)}\n\n`;
+
+        if (Math.abs(D) < 1e-9) {
+            return { solution: "Sistem tidak memiliki solusi unik (determinan utama nol).", steps };
+        }
+        
+        const solution = [];
+        for (let i = 0; i < n; i++) {
+            const tempMatrix = coeffs.map(row => [...row]);
+            for (let j = 0; j < n; j++) {
+                tempMatrix[j][i] = constants[j];
+            }
+            const Di = determinant(tempMatrix);
+            steps += `Matriks untuk D(x${i+1}):\n` + tempMatrix.map(r => r.join('\t')).join('\n') + `\nDeterminan D(x${i+1}) = ${Di.toFixed(4)}\n`;
+            solution.push(Di / D);
+            steps += `x${i+1} = D(x${i+1}) / D = ${Di.toFixed(4)} / ${D.toFixed(4)} = ${solution[i].toFixed(4)}\n\n`;
+        }
+        return { solution, steps };
+    }
+
+    // 3. Metode Grafik (untuk 2 variabel)
+    function solveWithGraph(matrix) {
+        const [a1, b1, c1] = matrix[0];
+        const [a2, b2, c2] = matrix[1];
+        
+        let steps = '<h3 class="text-lg font-bold mb-2 text-green-300">Interpretasi Grafik:</h3>';
+        steps += `<p class="font-sans text-white text-opacity-90" style="white-space: normal;">Setiap persamaan linear dengan dua variabel mewakili sebuah garis lurus pada bidang kartesius. Solusi dari sistem persamaan ini adalah <b>titik potong</b> di mana kedua garis bertemu.</p><br>`;
+        steps += `Garis 1 (Pink): ${formatEquation(matrix[0])}\n`;
+        steps += `Garis 2 (Cyan): ${formatEquation(matrix[1])}\n\n`;
+        steps += `Ada tiga kemungkinan:\n`;
+        steps += `1. <b>Berpotongan:</b> Garis bertemu di satu titik (solusi unik).\n`;
+        steps += `2. <b>Sejajar:</b> Garis tidak pernah bertemu (tidak ada solusi).\n`;
+        steps += `3. <b>Berimpit:</b> Kedua persamaan mewakili garis yang sama (solusi tak hingga).\n\n`;
+
+        const det = a1 * b2 - a2 * b1;
+        if (Math.abs(det) < 1e-9) {
+             return { solution: "Garis sejajar atau berimpit, tidak ada solusi potong tunggal.", steps };
+        }
+
+        const x = (c1 * b2 - c2 * b1) / det;
+        const y = (a1 * c2 - a2 * c1) / det;
+
+        steps += `<p class="font-sans text-white text-opacity-90" style="white-space: normal;">Grafik di atas menunjukkan kedua garis berpotongan di satu titik, yang merupakan solusi dari sistem ini.</p>`;
+        
+        drawGraph(a1, b1, c1, a2, b2, c2, x, y);
+        
+        return { solution: [x, y], steps };
+    }
+    
+    function drawGraph(a1, b1, c1, a2, b2, c2, solX, solY) {
+        const ctx = graphCanvas.getContext('2d');
+        const w = graphCanvas.width;
+        const h = graphCanvas.height;
+
+        const range = Math.max(10, Math.abs(solX) * 2, Math.abs(solY) * 2, Math.abs(c1/a1), Math.abs(c1/b1), Math.abs(c2/a2), Math.abs(c2/b2));
+        const scale = w / (2 * range);
+        const originX = w / 2;
+        const originY = h / 2;
+
+        ctx.clearRect(0, 0, w, h);
+
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.2)";
+        ctx.lineWidth = 0.5;
+        for (let i = -Math.ceil(range); i <= Math.ceil(range); i++) {
+            ctx.beginPath();
+            ctx.moveTo(originX + i * scale, 0); ctx.lineTo(originX + i * scale, h);
+            ctx.moveTo(0, originY + i * scale); ctx.lineTo(w, originY + i * scale);
+            ctx.stroke();
+        }
+
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.7)";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(0, originY); ctx.lineTo(w, originY);
+        ctx.moveTo(originX, 0); ctx.lineTo(originX, h);
+        ctx.stroke();
+        
+        const plotLine = (a, b, c, color) => {
+            ctx.beginPath();
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 2.5;
+            if (Math.abs(b) > 1e-9) {
+                const y1 = (c - a * (-range)) / b;
+                const y2 = (c - a * (range)) / b;
+                ctx.moveTo(originX + (-range) * scale, originY - y1 * scale);
+                ctx.lineTo(originX + (range) * scale, originY - y2 * scale);
+            } else {
+                const x = c / a;
+                ctx.moveTo(originX + x * scale, 0);
+                ctx.lineTo(originX + x * scale, h);
+            }
+            ctx.stroke();
+        };
+
+        plotLine(a1, b1, c1, "#ff8cbf");
+        plotLine(a2, b2, c2, "#8cfffb");
+
+        ctx.beginPath();
+        ctx.fillStyle = "#facc15";
+        ctx.arc(originX + solX * scale, originY - solY * scale, 6, 0, 2 * Math.PI);
+        ctx.fill();
+    }
+    
+    // 4. Eliminasi dan Substitusi
+    function solveWithEliminationSubstitution(matrix_in) {
+        const n = matrix_in.length;
+        let steps = '<h3 class="text-lg font-bold mb-2 text-purple-300">Langkah Eliminasi & Substitusi:</h3>';
+
+        if (n === 2) {
+            let eq1 = matrix_in[0];
+            let eq2 = matrix_in[1];
+            steps += `Persamaan awal:\n1: ${formatEquation(eq1)}\n2: ${formatEquation(eq2)}\n\n`;
+
+            const det = eq1[0] * eq2[1] - eq2[0] * eq1[1];
+            if (Math.abs(det) < 1e-9) return { solution: "Sistem tidak punya solusi unik (garis sejajar/berimpit).", steps };
+
+            // Eliminasi x
+            steps += `Langkah 1: Eliminasi variabel x.\nKalikan Persamaan 1 dengan ${formatNumber(eq2[0])} dan Persamaan 2 dengan ${formatNumber(eq1[0])}.\n`;
+            let new_eq1 = eq1.map(c => c * eq2[0]);
+            let new_eq2 = eq2.map(c => c * eq1[0]);
+            steps += `1': ${formatEquation(new_eq1)}\n2': ${formatEquation(new_eq2)}\n`;
+
+            steps += `Kurangi (1') dengan (2') untuk mendapatkan persamaan baru untuk y.\n`;
+            const y_coeff = new_eq1[1] - new_eq2[1];
+            const y_const = new_eq1[2] - new_eq2[2];
+            const y = y_const / y_coeff;
+            steps += `${formatNumber(y_coeff)}y = ${formatNumber(y_const)}  =>  y = ${formatNumber(y)}\n\n`;
+
+            // Substitusi y ke persamaan 1
+            steps += `Langkah 2: Substitusi nilai y = ${formatNumber(y)} ke Persamaan 1 asli.\n`;
+            steps += `${formatNumber(eq1[0])}x + ${formatNumber(eq1[1])}(${formatNumber(y)}) = ${formatNumber(eq1[2])}\n`;
+            const x_const = eq1[2] - eq1[1] * y;
+            const x = x_const / eq1[0];
+            steps += `${formatNumber(eq1[0])}x = ${formatNumber(x_const)}  =>  x = ${formatNumber(x)}\n`;
+
+            return { solution: [x, y], steps };
+
+        } else if (n > 2) {
+             steps += `Metode Eliminasi & Substitusi manual menjadi kompleks untuk lebih dari 2 variabel.\n\nDisarankan menggunakan <b>Eliminasi Gauss</b> untuk sistem yang lebih besar, karena merupakan generalisasi yang sistematis dari metode ini.\n`;
+             return { solution: "Silakan pilih metode Eliminasi Gauss.", steps };
+        }
+        
+        return { solution: "Metode ini belum diimplementasikan untuk n="+n, steps };
+    }
+
+
+    // === INITIALIZATION ===
+    createMatrixGrid();
+});
+</script>
 </body>
 </html>
